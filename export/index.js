@@ -3,6 +3,7 @@ import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.38.0';
+JSZip.support.blob = true;
 
 import { stringifyjson,
 	addDevTools,

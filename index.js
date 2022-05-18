@@ -28,6 +28,7 @@ import EditBar from './components/EditBar.mustache';
 import CategoryPortlet from './components/CategoryPortlet.mustache';
 import TableOfContents from './components/TableOfContents.mustache';
 import TableOfContentsLine from './components/TableOfContents__line.mustache';
+import skin from './components/skin.mustache';
 
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
@@ -357,6 +358,9 @@ import {
  * @param {Array|null} options.authors
  * @param {Object} options.skinStyles
  * @param {string} options.license License of skin
+ * @param {Object} options.CustomFileSaver
+ * @param {Object} options.Zipper
+ * @return {Promise}
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const skinKey = getSkinKeyFromName( name );
@@ -389,7 +393,7 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 `;
 	}
 
-	build(
+	return build(
 		name,
 		Object.assign(
 			styles,
@@ -446,3 +450,17 @@ export { build };
 
 import buildExtension from './export/extension';
 export { buildExtension };
+
+export function buildSkinBoilerplate( name, options ) {
+	return buildSkin(
+		name,
+		skin,
+		'/* Your CSS */',
+		'/* Your JS */',
+		{},
+		options
+	).then( ( result ) => {
+		console.log( `Successfully built ${name}`);
+	} );
+};
+

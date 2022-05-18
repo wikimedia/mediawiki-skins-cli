@@ -11594,6 +11594,7 @@ node_modules/
 
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.38.0';
+lib.support.blob = true;
 
 /**
  * @typedef {Object} Folder
@@ -11881,6 +11882,8 @@ var CategoryPortlet = "{{#is-article}}\n<div id=\"catlinks\" class=\"catlinks\" 
 var TableOfContents = "<div id=\"toc-sticky\">\n    <h1>Table Of Contents</h1>\n    <input type=\"checkbox\" checked>\n    <div>\n        <ul>\n        {{#array-sections}}\n        {{>TableOfContents__line}}\n        {{/array-sections}}\n        </ul>\n    </div>\n</div>\n";
 
 var TableOfContentsLine = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
+
+var skin = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n{{>Notices}}\n<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n\t{{#data-toc}}{{>TableOfContents}}{{/data-toc}}\n</main>\n<nav>\n\t{{>Languages}}\n</nav>\n{{>Footer}}\n";
 
 var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: #fff;\n\t\tbackground: #000;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}\n";
 
@@ -12454,6 +12457,9 @@ ${COMPONENT_STYLES[ name ]}`;
  * @param {Array|null} options.authors
  * @param {Object} options.skinStyles
  * @param {string} options.license License of skin
+ * @param {Object} options.CustomFileSaver
+ * @param {Object} options.Zipper
+ * @return {Promise}
  */
 function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const skinKey = getSkinKeyFromName( name );
@@ -12486,7 +12492,7 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 `;
 	}
 
-	build(
+	return build(
 		name,
 		Object.assign(
 			styles,
@@ -12539,6 +12545,19 @@ function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
 		.join( '\n' );
 }
 
+function buildSkinBoilerplate( name, options ) {
+	return buildSkin(
+		name,
+		skin,
+		'/* Your CSS */',
+		'/* Your JS */',
+		{},
+		options
+	).then( ( result ) => {
+		console.log( result );
+	} );
+}
+
 exports.COMPONENT_STYLES = COMPONENT_STYLES;
 exports.FEATURE_STYLES = FEATURE_STYLES;
 exports.JQUERY = JQUERY;
@@ -12547,6 +12566,7 @@ exports.SCRIPTS = SCRIPTS;
 exports.build = build;
 exports.buildExtension = buildExtension;
 exports.buildSkin = buildSkin;
+exports.buildSkinBoilerplate = buildSkinBoilerplate;
 exports.getComponentLESSFiles = getComponentLESSFiles;
 exports.getLESSFromTemplate = getLESSFromTemplate;
 exports.getLessVarsCode = getLessVarsCode;

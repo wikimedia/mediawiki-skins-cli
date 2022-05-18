@@ -17,6 +17,7 @@
 		"stylelint-config-wikimedia": "0.11.1"
 	},
 	"scripts": {
+		"create-mw-skin": "node createSkin.js",
 		"build": "rollup -c rollup.config.js",
 		"lint": "eslint . && stylelint **/*.less",
 		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
