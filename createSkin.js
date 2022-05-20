@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { buildSkinBoilerplate } = require( './bundle.js' );
 const fs = require( 'fs' );
 const rootFolder = `${__dirname}/`;
