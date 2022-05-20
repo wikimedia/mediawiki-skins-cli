@@ -1,6 +1,6 @@
 {
 	"name": "mediawiki-skins-cli",
-	"version": "0.5.2",
+	"version": "0.5.4",
 	"description": "Generate MediaWiki skins and extensions from nothing.",
 	"main": "bundle.js",
 	"devDependencies": {
@@ -20,6 +20,7 @@
 		"create-mw-skin": "./createSkin.js"
 	},
 	"scripts": {
+		"prepublish": "npm run build",
 		"start": "cd packages/react-scripts && node bin/react-scripts.js start",
 		"create-mw-skin": "node createSkin.js",
 		"build": "rollup -c rollup.config.js",

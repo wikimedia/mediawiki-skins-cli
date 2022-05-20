@@ -12551,10 +12551,10 @@ function buildSkinBoilerplate( name, options ) {
 		skin,
 		'/* Your CSS */',
 		'/* Your JS */',
-		{},
+		getLessVarsRaw(),
 		options
 	).then( ( result ) => {
-		console.log( result );
+		console.log( `Successfully built ${name}`);
 	} );
 }
 
