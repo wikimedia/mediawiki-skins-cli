@@ -30,6 +30,7 @@ import TableOfContents from './components/TableOfContents.mustache';
 import TableOfContentsLine from './components/TableOfContents__line.mustache';
 import skin from './components/skin.mustache';
 
+import skinLESS from './components/skin.less';
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
 import AdminBarWithEditLESS from './components/AdminBar.less';
@@ -455,7 +456,7 @@ export function buildSkinBoilerplate( name, options ) {
 	return buildSkin(
 		name,
 		skin,
-		'/* Your CSS */',
+		skinLESS,
 		'/* Your JS */',
 		getLessVarsRaw(),
 		options
