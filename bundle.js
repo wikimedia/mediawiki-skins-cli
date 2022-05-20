@@ -12547,6 +12547,13 @@ function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
 		.join( '\n' );
 }
 
+function buildDefaultAssets() {
+	return {
+		mustache: skin,
+		less: skinLESS
+	};
+}
+
 function buildSkinBoilerplate( name, options ) {
 	return buildSkin(
 		name,
@@ -12566,6 +12573,7 @@ exports.JQUERY = JQUERY;
 exports.PARTIALS = PARTIALS;
 exports.SCRIPTS = SCRIPTS;
 exports.build = build;
+exports.buildDefaultAssets = buildDefaultAssets;
 exports.buildExtension = buildExtension;
 exports.buildSkin = buildSkin;
 exports.buildSkinBoilerplate = buildSkinBoilerplate;

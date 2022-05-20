@@ -452,6 +452,13 @@ export { build };
 import buildExtension from './export/extension';
 export { buildExtension };
 
+export function buildDefaultAssets() {
+	return {
+		mustache: skin,
+		less: skinLESS
+	};
+}
+
 export function buildSkinBoilerplate( name, options ) {
 	return buildSkin(
 		name,
