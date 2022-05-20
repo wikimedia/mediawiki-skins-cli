@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { buildSkinBoilerplate } = require( './bundle.js' );
 const fs = require( 'fs' );
-const rootFolder = `${__dirname}/`;
+const rootFolder = './';
 const args = process.argv.slice(2);
 
 class FileSystemSaver {
@@ -23,14 +23,19 @@ class FileSystemSaver {
     }
 }
 
-buildSkinBoilerplate(
-    args[0],
-    {
-        Zipper: FileSystemSaver,
-        CustomFileSaver: () => (
-            () => Promise.resolve( true )
-        )
-    }
-).then( ( result ) => {
-    console.log( result );
-} );
+const name = args[0];
+if ( name ) {
+    buildSkinBoilerplate(
+        name,
+        {
+            Zipper: FileSystemSaver,
+            CustomFileSaver: () => (
+                () => Promise.resolve( true )
+            )
+        }
+    ).then( () => {
+        console.log(`Skin created at ${rootFolder}${name}`);
+    } );
+} else {
+    console.warn( 'Cannot create a skin with no name!' );
+}
