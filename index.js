@@ -1,6 +1,8 @@
 import build from './export/index.js';
 import FooterList from './components/FooterList.mustache';
 import CategoryPlain from './components/CategoryPlain.mustache';
+import CopyrightLine from './components/CopyrightLine.mustache';
+import LastModifiedLine from './components/LastModifiedLine.mustache';
 import CompactFooter from './components/CompactFooter.mustache';
 import Portlet from './components/Portlet.mustache';
 import ContentIndicators from './components/ContentIndicators.mustache';
@@ -103,6 +105,7 @@ export const PARTIALS = {
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,
 	Languages,
+	LastModifiedLine, CopyrightLine,
 	Dropdown,
 	Notifications,
 	PersonalMenu,
