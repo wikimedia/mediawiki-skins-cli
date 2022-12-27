@@ -21,7 +21,7 @@
 	},
 	"scripts": {
 		"prepublish": "npm run build",
-		"start": "cd packages/react-scripts && node bin/react-scripts.js start",
+		"start": "npm run build && npm run create-mw-skin TestSkin",
 		"create-mw-skin": "node createSkin.js",
 		"build": "rollup -c rollup.config.js",
 		"lint": "eslint . && stylelint **/*.less",
