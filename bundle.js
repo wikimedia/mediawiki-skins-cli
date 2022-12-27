@@ -11592,8 +11592,8 @@ node_modules/
 ` );
 }
 
-const SKINS_LAB_VERSION = '2.0';
-const MW_MIN_VERSION = '1.38.0';
+const SKINS_LAB_VERSION = '3.0';
+const MW_MIN_VERSION = '1.39.0';
 lib.support.blob = true;
 
 /**
@@ -11883,6 +11883,8 @@ const polyfill = (js, templates) => {
 
 var FooterList = "<ul id=\"{{id}}\">\n{{#array-items}}\n<li id=\"{{id}}\">{{{html}}}</li>\n{{/array-items}}\n</ul>\n";
 
+var CategoryLinks = "<span class=\"skin-category-links mw-portlet mw-portlet-category-normal\">{{#data-portlets.data-category-normal.array-items}}{{{html}}} {{/data-portlets.data-category-normal.array-items}}</span></span>\n";
+
 var CategoryPlain = "{{#data-portlets}}<span\n\tclass=\"catlinks mw-skin-category-plain\"\n\tdata-mw=\"interface\">\n    {{^data-category-normal}}{{msg-skinname-no-categories}}{{/data-category-normal}}\n    {{#data-category-normal}}\n\t<ul class=\"{{class}}\">\n\t{{{html-items}}}\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<li class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t</li>\n\t{{/data-category-hidden}}\n\t</ul>\n</span>{{/data-portlets}}\n";
 
 var CopyrightLine = "<span class=\"skin-copyright-line footer-info-copyright\">\n    {{! this typically contains elements other than last modified}}\n    {{#data-footer.data-info.array-items}}\n    <span class=\"skin-copyright-line-{{id}}\">{{{html}}}</span>\n    {{/data-footer.data-info.array-items}}\n</span>\n<style type=\"text/css\">\n.skin-copyright-line > span { display: none; }\n.skin-copyright-line > span.skin-copyright-line-footer-info-lastmod { display: inherit; }\n</style>\n<script type=\"text/javascript\">\ntry {\n    document.querySelectorAll( '.skin-copyright-line > .skin-copyright-line-footer-info-copyright' ).forEach(function ( node ) {\n        node.parentNode.innerHTML = node.innerHTML;\n    } );\n} catch ( e ) {\n\n}\n</script>\n";
@@ -11962,6 +11964,8 @@ var ContentActionsLESS = ".mw-portlet-views {\n\tflex-grow: 1;\n\n\tul {\n\t\tdi
 var DropdownLESS = "/* Checkbox hack dropdown */\n.mw-portlet-dropdown ~ .mw-portlet {\n\tli {\n\t\tdisplay: block;\n\t\tpadding: 0.75em 0.875em;\n\t}\n\n\t.mw-portlet-body {\n\t\tdisplay: none;\n\n\t\tul {\n\t\t\tbackground: @background-color-article;\n\t\t\tposition: absolute;\n\t\t\toverflow-y: auto;\n\t\t\tz-index: 2;\n\t\t\tbox-shadow: 0 5px 17px 0 rgba( 0, 0, 0, 0.24 ), 0 0 1px @color-gray;\n\t\t\tright: 0;\n\t\t\tmin-width: 200px;\n\t\t}\n\t}\n\n\tinput:checked {\n\t\t~ .mw-portlet-body ul {\n\t\t\topacity: 1;\n\t\t\tvisibility: visible;\n\t\t}\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t\topacity: 1;\n\t\t}\n\t}\n}\n";
 
 var CategoryPlainLESS = ".mw-skin-category-plain {\n\tul {\n\t\tmargin: 0;\n\t}\n\n\tul,\n\tli {\n\t\tdisplay: inline;\n\t\tmargin-right: 8px;\n\t}\n\n\t.mw-hidden-cats-hidden {\n\t\tdisplay: none;\n\t}\n}\n";
+
+var CategoryLinksLESS = ".skin-category-links a:after {\n\tcontent: ',';\n}\n\n.skin-category-list a:last-child:after {\n\tcontent: none;\n}\n";
 
 var ContentNamespacesLESS = ".mw-portlet-namespaces {\n\tmargin-top: 10px;\n\tborder-bottom: 1px solid @color-gray-2;\n\n\ta {\n\t\tfont-size: 0.85em;\n\t\tmargin: 0 10px 0 0;\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t\tpadding-bottom: 6px;\n\t\tdisplay: inline-block;\n\t}\n\n\tli.selected {\n\t\tborder-bottom: 2px solid @color-base;\n\t\tmargin-bottom: -1px;\n\t}\n}\n";
 
@@ -12229,6 +12233,7 @@ const COMPONENT_STYLES = {
 	AdminBarUser: AdminBarUserLESS,
 	AdminBarWithEdit: AdminBarLESS,
 	AdminBar: AdminBarLESS,
+	CategoryLinks: CategoryLinksLESS,
 	CategoryPlain: CategoryPlainLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
@@ -12261,6 +12266,7 @@ const PARTIALS = {
 	TableOfContents__line: TableOfContentsLine,
 	TableOfContents,
 	CategoryPlain,
+	CategoryLinks,
 	EditBar,
 	LanguageButton,
 	CategoryPortlet,
