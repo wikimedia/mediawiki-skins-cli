@@ -25,7 +25,7 @@ mw.requestIdleCallback( function () {
 			} catch ( e ) {
 				lastmod = 'Unknown';
 			}
-			$polyfillLastMod.parent().text(lastmod);
+			$polyfillLastMod.replaceWith(lastmod);
 		} );
 	} );
 } );
