@@ -1,6 +1,7 @@
 import build from './export/index.js';
 import polyfill from './components/polyfills.js';
 import FooterList from './components/FooterList.mustache';
+import CategoryLinks from './components/CategoryLinks.mustache';
 import CategoryPlain from './components/CategoryPlain.mustache';
 import CopyrightLine from './components/CopyrightLine.mustache';
 import LastModifiedLine from './components/LastModifiedLine.mustache';
@@ -43,6 +44,7 @@ import PersonalMenuLESS from './components/PersonalMenu.less';
 import ContentActionsLESS from './components/ContentActions.less';
 import DropdownLESS from './components/Dropdown.less';
 import CategoryPlainLESS from './components/CategoryPlain.less';
+import CategoryLinksLESS from './components/CategoryLinks.less';
 import ContentNamespacesLESS from './components/ContentNamespaces.less';
 import PortletLESS from './components/Portlet.less';
 import NotificationsLESS from './components/Notifications.less';
@@ -59,6 +61,7 @@ export const COMPONENT_STYLES = {
 	AdminBarUser: AdminBarUserLESS,
 	AdminBarWithEdit: AdminBarWithEditLESS,
 	AdminBar: AdminBarLESS,
+	CategoryLinks: CategoryLinksLESS,
 	CategoryPlain: CategoryPlainLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
@@ -100,6 +103,7 @@ export const PARTIALS = {
 	TableOfContents__line: TableOfContentsLine,
 	TableOfContents,
 	CategoryPlain,
+	CategoryLinks,
 	EditBar,
 	LanguageButton,
 	CategoryPortlet,
