@@ -11825,13 +11825,69 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 		} );
 }
 
+const POLYFILLS = {
+	LastModifiedLine: `/** Polyfills for MediaWiki <= 1.40 */
+mw.requestIdleCallback( function () {
+	/* Polyfill for LastModifiedLine */
+	var $polyfillLastMod = $('.skin-polyfill-last-modified');
+	if ( !$polyfillLastMod.length) {
+		return;
+	}
+	mw.loader.using( 'mediawiki.api' ).then( function () {
+		var api = new mw.Api();
+		api.get( {
+			action: 'query',
+			prop: 'revisions',
+			titles: mw.config.get('wgTitle'),
+			formatversion: 2,
+			redirects: 1
+		} ).then( function ( a ) {
+			var lastmod;
+			try {
+				lastmod = new Date( a.query.pages[0].revisions[0].timestamp );
+				lastmod = lastmod.toLocaleDateString(
+					mw.config.get('wgUserLanguage'),
+					{ year:"numeric", month:"short", day:"numeric" }
+				);
+			} catch ( e ) {
+				lastmod = 'Unknown';
+			}
+			$polyfillLastMod.parent().text(lastmod);
+		} );
+	} );
+} );
+`
+};
+
+const POLYFILLS_MATCH = {
+	'?action=history': `mw.requestIdleCallback( function () {
+	// History URL
+	$('[href="?action=history"]').prop('href', mw.util.getUrl( mw.config.get('wgTitle'), { action: 'history' } ) );
+} );`
+};
+
+const polyfill = (js, templates) => {
+	Object.keys( templates ).forEach( ( template ) => {
+		if (POLYFILLS[template]) {
+			js = POLYFILLS[template] + js;
+		}
+		const text = templates[template];
+		Object.keys( POLYFILLS_MATCH ).forEach( ( key ) => {
+			if ( text.indexOf( key ) > -1 ) {
+				js = POLYFILLS_MATCH[ key ] + js;
+			}
+		} );
+	});
+	return js;
+};
+
 var FooterList = "<ul id=\"{{id}}\">\n{{#array-items}}\n<li id=\"{{id}}\">{{{html}}}</li>\n{{/array-items}}\n</ul>\n";
 
 var CategoryPlain = "{{#data-portlets}}<span\n\tclass=\"catlinks mw-skin-category-plain\"\n\tdata-mw=\"interface\">\n    {{^data-category-normal}}{{msg-skinname-no-categories}}{{/data-category-normal}}\n    {{#data-category-normal}}\n\t<ul class=\"{{class}}\">\n\t{{{html-items}}}\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<li class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t</li>\n\t{{/data-category-hidden}}\n\t</ul>\n</span>{{/data-portlets}}\n";
 
-var CopyrightLine = "<span class=\"skin-copyright-line\">\n    {{! this typically contains elements other than last modified}}\n    {{#data-footer.data-info.array-items}}\n    <span class=\"skin-copyright-line-{{id}}\">{{{html}}}</span>\n    {{/data-footer.data-info.array-items}}\n</span>\n<style type=\"text/css\">\n.skin-copyright-line > span { display: none; }\n.skin-copyright-line > span.skin-copyright-line-footer-info-lastmod { display: inherit; }\n</style>\n<script type=\"text/javascript\">\ntry {\n    document.querySelectorAll( '.skin-copyright-line > .skin-copyright-line-footer-info-copyright' ).forEach(function ( node ) {\n        node.parentNode.innerHTML = node.innerHTML;\n    } );\n} catch ( e ) {\n\n}\n</script>\n";
+var CopyrightLine = "<span class=\"skin-copyright-line footer-info-copyright\">\n    {{! this typically contains elements other than last modified}}\n    {{#data-footer.data-info.array-items}}\n    <span class=\"skin-copyright-line-{{id}}\">{{{html}}}</span>\n    {{/data-footer.data-info.array-items}}\n</span>\n<style type=\"text/css\">\n.skin-copyright-line > span { display: none; }\n.skin-copyright-line > span.skin-copyright-line-footer-info-lastmod { display: inherit; }\n</style>\n<script type=\"text/javascript\">\ntry {\n    document.querySelectorAll( '.skin-copyright-line > .skin-copyright-line-footer-info-copyright' ).forEach(function ( node ) {\n        node.parentNode.innerHTML = node.innerHTML;\n    } );\n} catch ( e ) {\n\n}\n</script>\n";
 
-var LastModifiedLine = "<span class=\"skin-last-modified\">\n    {{! this typically contains elements other than last modified}}\n    {{#data-footer.data-info.array-items}}\n    <span class=\"skin-last-modified-{{id}}\">{{{html}}}</span>\n    {{/data-footer.data-info.array-items}}\n</span>\n<style type=\"text/css\">\n.skin-last-modified > span { display: none; }\n.skin-last-modified > span.skin-last-modified-footer-info-lastmod { display: inherit; }\n</style>\n<script type=\"text/javascript\">\ntry {\n    document.querySelectorAll( '.skin-last-modified > .skin-last-modified-footer-info-lastmod' ).forEach(function ( node ) {\n        node.parentNode.innerHTML = node.innerHTML;\n    } );\n} catch ( e ) {\n\n}\n</script>\n";
+var LastModifiedLine = "<span class=\"skin-polyfill-last-modified\">███████</span>\n";
 
 var CompactFooter = "{{#data-footer.data-icons}}\n<p class=\"{{id}} {{className}}\">\n{{#array-items}}{{{html}}}&nbsp;{{/array-items}}\n</p>\n{{/data-footer.data-icons}}\n{{#data-footer.data-info.array-items}}<div class=\"{{id}}\">{{{html}}}</div>{{/data-footer.data-info.array-items}}\n<div>\n{{#data-footer.data-places.array-items}}<span class=\"{{id}}\">{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}\n</div>\n";
 
@@ -11887,7 +11943,7 @@ var TableOfContents = "<div id=\"toc-sticky\">\n    <h1>Table Of Contents</h1>\n
 
 var TableOfContentsLine = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
 
-var skin = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n{{>Notices}}\n<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n\t{{#data-toc}}{{>TableOfContents}}{{/data-toc}}\n</main>\n<nav>\n\t{{>Languages}}\n</nav>\n{{>Footer}}\n";
+var skin = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n{{>Notices}}\n<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n\t{{#data-toc}}{{>TableOfContents}}{{/data-toc}}\n</main>\n<a href=\"?action=history\">History</a>\n{{>LastModifiedLine}}\n<nav>\n\t{{>Languages}}\n</nav>\n{{>Footer}}\n";
 
 var skinLESS = "/** ResourceLoaderSkinModule: normalize,elements,content-tables,content-links,content-media,interface-message-box,interface-category,toc */\n\nhtml {\n\tbackground: @background-color-base;\n\tmargin: 0;\n\tpadding: 0 0 20px;\n}\n\nbody {\n\tbackground: @background-color-article;\n\tmax-width: 800px;\n\tmargin: 0 auto;\n\tfont-family: @font-family;\n\n\t> header,\n\t> main,\n\t> nav,\n\t> footer {\n\t\tpadding: 1em;\n\t}\n}\n\nbody,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n\tcolor: @color-base;\n}\n\na {\n\tcolor: @color-link;\n\n\t&:visited {\n\t\tcolor: @color-link--visited;\n\t}\n}\n\n/** HEADER */\n\n.mw-header {\n\tmin-height: 50px;\n\tmargin: 0 10px 8px;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tposition: relative;\n\tz-index: 3;\n\tpadding-left: 50px;\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tpadding: 1em 8px;\n\t\tmargin: 0;\n\t}\n}\n\n/** CONTENT */\n\nmain {\n\tborder-bottom: solid 20px @background-color-base;\n}\n\n.content {\n\t&__header {\n\t\tposition: relative;\n\t}\n\n\t&__heading {\n\t\tpadding: 0 50px 0 0;\n\t\tmargin: 0;\n\t\tborder-bottom: 0;\n\t\tfloat: left;\n\t}\n\n\t&__language-btn {\n\t\tfloat: right;\n\t}\n\n\t&__indicators {\n\t\tposition: absolute;\n\t\ttop: 10px;\n\t\tright: 0;\n\t}\n\n\t&__tagline {\n\t\tclear: both;\n\t\tcolor: @color-base;\n\t\tfont-size: 0.85em;\n\t\tmargin-bottom: 12px;\n\t\tline-height: 1;\n\n\t\t&:empty {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\t&__actions {\n\t\tdisplay: flex;\n\t}\n}\n\n/* The following rules will not be needed in future */\n.mw-editsection {\n\tfont-size: 0.85em;\n\tmargin-left: 8px;\n}\n\n.messagebox {\n\tcolor: @color-base;\n\tbackground-color: @background-color-warning;\n\tborder-color: @color-gray;\n\n\ta {\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t}\n}\n\n.thumbimage {\n\tbackground: transparent;\n\tborder: 0;\n}\n\n.toc,\ndiv.thumbinner {\n\tborder-color: @color-gray;\n\tbackground-color: @background-color-thumb;\n\tcolor: @color-thumb;\n\n\t.toctogglelabel,\n\ta {\n\t\tcolor: @color-thumb;\n\t}\n}\n";
 
@@ -12499,6 +12555,15 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 `;
 	}
 
+	let jsFiles;
+	if ( isStringModeJS ) {
+		jsFiles = {
+			'skin.js': polyfill(js, templates)
+		};
+	} else {
+		js['skin.js'] = polyfill(js['skin.js'], templates);
+		jsFiles = js;
+	}
 	return build(
 		name,
 		Object.assign(
@@ -12515,9 +12580,7 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 ${importStatements}`
 			} ),
 		templates,
-		isStringModeJS ? {
-			'skin.js': js
-		} : js,
+		jsFiles,
 		messages( templates ),
 		options
 	);

@@ -1,4 +1,5 @@
 import build from './export/index.js';
+import polyfill from './components/polyfills.js';
 import FooterList from './components/FooterList.mustache';
 import CategoryPlain from './components/CategoryPlain.mustache';
 import CopyrightLine from './components/CopyrightLine.mustache';
@@ -397,6 +398,15 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 `;
 	}
 
+	let jsFiles;
+	if ( isStringModeJS ) {
+		jsFiles = {
+			'skin.js': polyfill(js, templates)
+		};
+	} else {
+		js['skin.js'] = polyfill(js['skin.js'], templates);
+		jsFiles = js;
+	}
 	return build(
 		name,
 		Object.assign(
@@ -413,9 +423,7 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 ${importStatements}`
 			} ),
 		templates,
-		isStringModeJS ? {
-			'skin.js': js
-		} : js,
+		jsFiles,
 		messages( templates ),
 		options
 	);
