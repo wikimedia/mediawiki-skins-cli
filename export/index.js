@@ -2,7 +2,7 @@ import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
 const SKINS_LAB_VERSION = '3.0';
-const MW_MIN_VERSION = '1.39.0';
+const MW_MIN_VERSION = '1.40.0';
 JSZip.support.blob = true;
 
 import { stringifyjson,

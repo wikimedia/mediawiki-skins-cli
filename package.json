@@ -1,6 +1,6 @@
 {
 	"name": "mediawiki-skins-cli",
-	"version": "0.7.1",
+	"version": "1.0.0",
 	"description": "Generate MediaWiki skins and extensions from nothing.",
 	"main": "bundle.js",
 	"devDependencies": {
@@ -29,8 +29,8 @@
 	},
 	"author": "Jon Robson",
 	"dependencies": {
-		"@rollup/plugin-commonjs": "^21.0.1",
-		"@rollup/plugin-node-resolve": "^13.0.6",
-		"unminify": "^2.0.0"
+		"@rollup/plugin-commonjs": "21.0.1",
+		"@rollup/plugin-node-resolve": "13.0.6",
+		"unminify": "2.0.0"
 	}
 }

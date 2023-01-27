@@ -11593,7 +11593,7 @@ node_modules/
 }
 
 const SKINS_LAB_VERSION = '3.0';
-const MW_MIN_VERSION = '1.39.0';
+const MW_MIN_VERSION = '1.40.0';
 lib.support.blob = true;
 
 /**
@@ -11825,39 +11825,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 		} );
 }
 
-const POLYFILLS = {
-	LastModifiedLine: `/** Polyfills for MediaWiki <= 1.40 */
-mw.requestIdleCallback( function () {
-	/* Polyfill for LastModifiedLine */
-	var $polyfillLastMod = $('.skin-polyfill-last-modified');
-	if ( !$polyfillLastMod.length) {
-		return;
-	}
-	mw.loader.using( 'mediawiki.api' ).then( function () {
-		var api = new mw.Api();
-		api.get( {
-			action: 'query',
-			prop: 'revisions',
-			titles: mw.config.get('wgTitle'),
-			formatversion: 2,
-			redirects: 1
-		} ).then( function ( a ) {
-			var lastmod;
-			try {
-				lastmod = new Date( a.query.pages[0].revisions[0].timestamp );
-				lastmod = lastmod.toLocaleDateString(
-					mw.config.get('wgUserLanguage'),
-					{ year:"numeric", month:"short", day:"numeric" }
-				);
-			} catch ( e ) {
-				lastmod = 'Unknown';
-			}
-			$polyfillLastMod.replaceWith(lastmod);
-		} );
-	} );
-} );
-`
-};
+const POLYFILLS = {};
 
 const POLYFILLS_MATCH = {
 	'?action=history': `mw.requestIdleCallback( function () {
@@ -11887,9 +11855,9 @@ var CategoryLinks = "<span class=\"skin-category-links mw-portlet mw-portlet-cat
 
 var CategoryPlain = "{{#data-portlets}}<span\n\tclass=\"catlinks mw-skin-category-plain\"\n\tdata-mw=\"interface\">\n    {{^data-category-normal}}{{msg-skinname-no-categories}}{{/data-category-normal}}\n    {{#data-category-normal}}\n\t<ul class=\"{{class}}\">\n\t{{{html-items}}}\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<li class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t</li>\n\t{{/data-category-hidden}}\n\t</ul>\n</span>{{/data-portlets}}\n";
 
-var CopyrightLine = "<span class=\"skin-copyright-line footer-info-copyright\">\n    {{! this typically contains elements other than last modified}}\n    {{#data-footer.data-info.array-items}}\n    <span class=\"skin-copyright-line-{{id}}\">{{{html}}}</span>\n    {{/data-footer.data-info.array-items}}\n</span>\n<style type=\"text/css\">\n.skin-copyright-line > span { display: none; }\n.skin-copyright-line > span.skin-copyright-line-footer-info-lastmod { display: inherit; }\n</style>\n<script type=\"text/javascript\">\ntry {\n    document.querySelectorAll( '.skin-copyright-line > .skin-copyright-line-footer-info-copyright' ).forEach(function ( node ) {\n        node.parentNode.innerHTML = node.innerHTML;\n    } );\n} catch ( e ) {\n\n}\n</script>\n";
+var CopyrightLine = "<span class=\"skin-copyright-line footer-info-copyright\">\n    {{#data-copyright}}{{{html}}}{{/data-copyright}}\n</span>\n";
 
-var LastModifiedLine = "<span class=\"skin-polyfill-last-modified\">███████</span>\n";
+var LastModifiedLine = "<span class=\"skin-last-modified\">{{data-last-modified.date}}</span>\n";
 
 var CompactFooter = "{{#data-footer.data-icons}}\n<p class=\"{{id}} {{className}}\">\n{{#array-items}}{{{html}}}&nbsp;{{/array-items}}\n</p>\n{{/data-footer.data-icons}}\n{{#data-footer.data-info.array-items}}<div class=\"{{id}}\">{{{html}}}</div>{{/data-footer.data-info.array-items}}\n<div>\n{{#data-footer.data-places.array-items}}<span class=\"{{id}}\">{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}\n</div>\n";
 
