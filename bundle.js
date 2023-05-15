@@ -11530,9 +11530,9 @@ var scripts = {
 	"lint:i18n": "banana-checker i18n/"
 };
 var devDependencies = {
-	"eslint-config-wikimedia": "0.20.0",
-	"grunt-banana-checker": "0.9.0",
-	"stylelint-config-wikimedia": "0.11.1"
+	"eslint-config-wikimedia": "0.25.0",
+	"grunt-banana-checker": "0.10.0",
+	"stylelint-config-wikimedia": "0.14.0"
 };
 var packageJSON = {
 	"private": true,
