@@ -2,7 +2,7 @@
 <div id="catlinks" class="catlinks" data-mw="interface">
 	{{#data-category-normal}}
 	<div id="{{id}}" class="{{class}}">
-		<ul>{{{html-items}}}</ul>
+		<ul>{{#array-items}}{{>ListItem}}{{/array-items}}</ul>
 		{{{html-after-portal}}}
 	</div>
 	{{/data-category-normal}}
@@ -11,7 +11,7 @@
 	{{/data-category-normal}}
 	{{#data-category-hidden}}
 	<div id="{{id}}" class="{{class}}">
-		<ul>{{{html-items}}}</ul>
+		<ul>{{#array-items}}{{>ListItem}}{{/array-items}}</ul>
 		{{{html-after-portal}}}
 	</div>
 	{{/data-category-hidden}}

@@ -4,11 +4,11 @@
     {{^data-category-normal}}{{msg-skinname-no-categories}}{{/data-category-normal}}
     {{#data-category-normal}}
 	<ul class="{{class}}">
-	{{{html-items}}}
+	{{#array-items}}{{>ListItem}}{{/array-items}}
 	{{/data-category-normal}}
 	{{#data-category-hidden}}
 	<li class="{{class}}">
-		<ul>{{{html-items}}}</ul>
+		<ul>{{#array-items}}{{>ListItem}}{{/array-items}}</ul>
 	</li>
 	{{/data-category-hidden}}
 	</ul>

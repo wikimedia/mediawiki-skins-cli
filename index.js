@@ -17,6 +17,8 @@ import ContentTagline from './components/ContentTagline.mustache';
 import Footer from './components/Footer.mustache';
 import Logo from './components/Logo.mustache';
 import LanguageButton from './components/LanguageButton.mustache';
+import ListItem from './components/ListItem.mustache';
+import ListItemLink from './components/ListItemLink.mustache';
 import Search from './components/Search.mustache';
 import WPSearch from './components/WPSearch.mustache';
 import Sidebar from './components/Sidebar.mustache';
@@ -106,6 +108,8 @@ export const PARTIALS = {
 	CategoryLinks,
 	EditBar,
 	LanguageButton,
+	ListItem,
+	ListItemLink,
 	CategoryPortlet,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,

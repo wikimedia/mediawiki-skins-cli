@@ -1,8 +1,8 @@
 <ul class="mw-edit-bar">
     {{#data-portlets.data-views}}
-    {{{html-items}}}
+    {{#array-items}}{{>ListItem}}{{/array-items}}
     {{/data-portlets.data-views}}
     {{#data-portlets.data-namespaces}}
-    {{{html-items}}}
+    {{#array-items}}{{>ListItem}}{{/array-items}}
     {{/data-portlets.data-namespaces}}
 </ul>

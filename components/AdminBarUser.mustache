@@ -5,7 +5,7 @@
     <h3 id="{{id}}-label" class="mw-adminbar-icon-user">{{label}}</h3>
     <div class="mw-portlet-body">
         <ul>
-            {{{html-items}}}
+            {{#array-items}}{{>ListItem}}{{/array-items}}
         </ul>
         {{{html-after-portal}}}
     </div>
@@ -13,6 +13,6 @@
 }}{{/data-portlets.data-user-menu}}{{!
 }}{{#data-portlets.data-notifications}}{{!
 }}<ul class="mw-adminbar-notifications">
-    {{{html-items}}}
+    {{#array-items}}{{>ListItem}}{{/array-items}}
 </ul>
 {{/data-portlets.data-notifications}}
