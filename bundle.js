@@ -11608,6 +11608,7 @@ lib.support.blob = true;
  * @param {Array} authors
  */
 function addi18n$1( name, rootfolder, messages = {}, authors = [] ) {
+	console.log('add i18n', messages);
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
@@ -11796,15 +11797,20 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	} );
 
 	// setup i18n
+	messageObj.en = messageObj.en || {};
 	messageObj.qqq = messageObj.qqq || {};
 	const ourMessages = {
+		'no-categories': 'No categories.'
+	};
+	const ourMessagesQQQ = {
 		'no-categories': 'Message to show when no categories available'
 	};
 	skinMessages.forEach( ( key ) => {
 		const lookup = key.split( '-' ).slice( 1 ).join( '-' );
 		const ours = ourMessages[ lookup ];
 		if ( ours ) {
-			messageObj.qqq[ key ] = ours;
+			messageObj.en[ key ] = ourMessages[ lookup ];
+			messageObj.qqq[ key ] = ourMessagesQQQ[ lookup ];
 		}
 	} );
 
