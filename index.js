@@ -483,7 +483,8 @@ export function buildSkinBoilerplate( name, options ) {
 		name,
 		skin,
 		skinLESS,
-		'/* Your JS */',
+		`/* JavaScript for the ${name} skin */
+`,
 		getLessVarsRaw(),
 		options
 	).then( ( result ) => {
