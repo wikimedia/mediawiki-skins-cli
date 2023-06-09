@@ -11530,9 +11530,9 @@ var scripts = {
 	"lint:i18n": "banana-checker i18n/"
 };
 var devDependencies = {
-	"eslint-config-wikimedia": "0.25.0",
-	"grunt-banana-checker": "0.10.0",
-	"stylelint-config-wikimedia": "0.14.0"
+	"eslint-config-wikimedia": "0.25.1",
+	"grunt-banana-checker": "0.11.0",
+	"stylelint-config-wikimedia": "0.15.0"
 };
 var packageJSON = {
 	"private": true,
@@ -11583,8 +11583,8 @@ function getSkinKeyFromName( name ) {
 	return getFolderNameFromName( name ).toLowerCase();
 }
 
-function addDevTools( rootfolder ) {
-	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );
+function addDevTools( name, rootfolder ) {
+	rootfolder.file( 'package.json', stringifyjson( Object.assign( { name }, packageJSON ) ) );
 	rootfolder.file( '.eslintrc.json', stringifyjson( eslintJSON ) );
 	rootfolder.file( '.stylelintrc.json', stringifyjson( stylelintJSON ) );
 	rootfolder.file( '.gitignore', `.eslintcache
@@ -11617,12 +11617,12 @@ function addi18n$1( name, rootfolder, messages = {}, authors = [] ) {
 	const en = Object.assign( {
 		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: name,
-		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
+		[ `${skinKey}-skin-desc` ]: `A skin created by ${TOOL_LINK}`
 	}, messages.en || {} );
 	const qqq = Object.assign( {
 		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
-		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
+		[ `${skinKey}-skin-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
 	}, messages.qqq || {} );
 	i18nfolder.file( 'en.json', stringifyjson( en ) );
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
@@ -11780,7 +11780,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	);
 
 	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
-	addDevTools( rootfolder );
+	addDevTools( name, rootfolder );
 
 	// create styles and script files in `resources` folder
 	Object.keys( styles ).forEach( ( filename ) => {
@@ -11882,7 +11882,7 @@ var ContentBody = "{{{html-body-content}}}\n{{#data-portlets}}\n{{>CategoryPortl
 
 var ContentTagline = "<div class=\"content__tagline\">\n    <span>{{msg-tagline}}</span>\n    <span>{{{html-subtitle}}}</span>\n    <span>{{{html-undelete-link}}}</span>\n</div>\n";
 
-var Footer = "<footer id=\"footer\" class=\"mw-footer\" role=\"contentinfo\" {{{html-user-language-attributes}}}>\n    {{#data-footer}}\n    {{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}\n    {{!}}<div id=\"footer-list\">\n    {{#data-last-modified}}{{>LastModifiedLine}}{{/data-last-modified}}\n    <div id=\"copyright\">{{#data-copyright}}{{{html}}}{{/data-copyright}}</div>\n    {{!}}{{#data-places}}{{>FooterList}}{{/data-places}}\n    {{!}}</div>\n    {{/data-footer}}\n</footer>\n";
+var Footer = "{{! `role` is unnecessary but kept to support selectors in any gadgets or user styles and\n\tto mitigate a VoiceOver bug. }}\n<footer id=\"footer\" class=\"mw-footer\" role=\"contentinfo\" {{{html-user-language-attributes}}}>\n\t{{#data-footer}}\n\t{{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}\n\t{{!}}<div id=\"footer-list\">\n\t{{#data-last-modified}}{{>LastModifiedLine}}{{/data-last-modified}}\n\t<div id=\"copyright\">{{#data-copyright}}{{{html}}}{{/data-copyright}}</div>\n\t{{!}}{{#data-places}}{{>FooterList}}{{/data-places}}\n\t{{!}}</div>\n\t{{/data-footer}}\n</footer>\n";
 
 var Logo = "<div id=\"p-logo\" class=\"mw-portlet\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
 
@@ -11946,13 +11946,13 @@ var CategoryLinksLESS = ".skin-category-links a:after {\n\tcontent: ',';\n}\n\n.
 
 var ContentNamespacesLESS = ".mw-portlet-namespaces {\n\tmargin-top: 10px;\n\tborder-bottom: 1px solid @color-gray-2;\n\n\ta {\n\t\tfont-size: 0.85em;\n\t\tmargin: 0 10px 0 0;\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t\tpadding-bottom: 6px;\n\t\tdisplay: inline-block;\n\t}\n\n\tli.selected {\n\t\tborder-bottom: 2px solid @color-base;\n\t\tmargin-bottom: -1px;\n\t}\n}\n";
 
-var PortletLESS = ".mw-portlet {\n\tposition: relative;\n\n\tul {\n\t\tmargin: 0;\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 10px;\n\t}\n\n\tinput[ type='checkbox' ] {\n\t\tdisplay: block;\n\t\tposition: absolute;\n\t\topacity: 0;\n\t\tcursor: pointer;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\tz-index: 1;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n}\n";
+var PortletLESS = ".mw-portlet {\n\tposition: relative;\n\n\tul {\n\t\tmargin: 0;\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 10px;\n\t}\n\n\tinput[ type='checkbox' ] {\n\t\tdisplay: block;\n\t\tposition: absolute;\n\t\topacity: 0;\n\t\tcursor: pointer;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\tz-index: @z-index-stacking-1;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n}\n";
 
 var NotificationsLESS = ".mw-portlet-notifications {\n\tinput[ type='checkbox' ] {\n\t\tdisplay: none;\n\t}\n\n\tli {\n\t\twidth: 20px;\n\t\theight: 20px;\n\n\t\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\t\twidth: 100%;\n\t\t\theight: 40px;\n\t\t}\n\t}\n\n\t#pt-notifications-alert {\n\t\tmargin-right: 20px;\n\n\t\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\t\tmargin-right: 0;\n\t\t}\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmargin-top: 0;\n\t\twidth: 40px;\n\t\theight: 40px;\n\t\tposition: relative;\n\n\t\t* {\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\t\t}\n\n\t\t#pt-notifications-notice {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\ta {\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent;\n\t\tbackground-position: center center;\n\t\twidth: 100% !important;\n\t\theight: 100% !important;\n\t\tdisplay: block;\n\t}\n}\n\n#pt-talk-alert {\n\tdisplay: none;\n}\n";
 
 var SidebarLESS = ".toggle-list__list {\n\tposition: fixed;\n\tleft: 0;\n\ttop: 0;\n\tmin-width: 70%;\n\tmax-width: 320px;\n\tbottom: 0;\n\tbackground: #fff;\n\tz-index: 4;\n\tdisplay: none;\n\n\th3 {\n\t\tdisplay: none;\n\t}\n\n\ta {\n\t\tdisplay: block;\n\t}\n\n\t.mw-portlet-body li {\n\t\tdisplay: block;\n\t\tpadding: 8px;\n\t}\n}\n\n.toggle-list__checkbox:checked ~ .toggle-list__list {\n\tdisplay: block;\n}\n\n/* Icons */\n.sidebar__icon {\n\tcursor: pointer;\n\twidth: 20px;\n\theight: 20px;\n\tposition: absolute;\n\ttop: 40px;\n\toverflow: hidden;\n\tcolor: transparent;\n\tleft: 20px;\n\tz-index: 3;\n\tfilter: @icon-filter;\n}\n\n.sidebar__icon:before {\n\tcontent: '';\n\twidth: 20px;\n\tdisplay: block;\n\theight: 20px;\n\t// stylelint-disable-next-line function-url-quotes\n\tbackground-image: url( 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Ctitle%3E menu %3C/title%3E %3Cpath d=%22M1 3v2h18V3zm0 8h18V9H1zm0 6h18v-2H1z%22/%3E %3C/svg%3E' );\n}\n\n/* checkbox hack */\n.toggle-list__checkbox {\n\tposition: absolute;\n\tz-index: -1;\n\topacity: 0;\n}\n\n.toggle-list__checkbox ~ .toggle-list__mask {\n\tposition: fixed;\n\ttop: 0;\n\tleft: 0;\n\tright: 0;\n\topacity: 0;\n\tbottom: 0;\n\tbackground: rgba( 0, 0, 0, 0.8 );\n\tz-index: 3;\n\tvisibility: hidden;\n}\n\n.toggle-list__checkbox:checked ~ .toggle-list__mask {\n\tvisibility: visible;\n\topacity: 1;\n}\n";
 
-var FooterLESS = ".mw-footer {\n\tborder-top: solid 20px @background-color-base;\n\tpadding: 20px 0;\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 20px;\n\t}\n}\n";
+var FooterLESS = ".mw-footer {\n\tborder-top: solid 20px @background-color-base;\n\tpadding: 20px 0;\n\n\t> div,\n\t> ul {\n\t\tmargin: 1em;\n\n\t\tul {\n\t\t\tmargin: 0;\n\t\t}\n\t}\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 20px;\n\t}\n}\n";
 
 var LogoLESS = "#p-logo {\n\tmin-height: 70px;\n\tflex-grow: 1;\n\n\th1 {\n\t\tfont-size: 1rem;\n\t\tmargin: 0;\n\t\tborder: 0;\n\t\tpadding: 0 0 0 10px;\n\t}\n\n\timg {\n\t\tmax-width: none;\n\t}\n\n\ta {\n\t\tdisplay: flex;\n\t\talign-content: center;\n\t\theight: 70px;\n\t\talign-items: center;\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmin-width: 170px;\n\t\tmax-width: none;\n\t\tfont-size: 0.75em;\n\n\t\t.icon {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n";
 
@@ -12176,7 +12176,7 @@ function buildExtension( name, options = {} ) {
 		extjson( folderName, options )
 	);
 	addi18n( rootfolder, name );
-	addDevTools( rootfolder );
+	addDevTools( name, rootfolder );
 	/* const resourcesFolder = */rootfolder.folder( 'resources' );
 	const includesFolder = rootfolder.folder( 'includes' );
 	rootfolder.file(
@@ -12470,6 +12470,10 @@ function getComponentLESSFileNames( componentNames ) {
 	);
 }
 
+const IMPORT_COMMENTS = {
+	'mediawiki.skin.variables.less': 'Import MediaWiki skin variables for general fundamental styling.'
+};
+
 /**
  *
  * @param {string[]} componentNames name array
@@ -12480,7 +12484,11 @@ function getComponentLESSFiles( componentNames, imports ) {
 	const mapping = {};
 	getComponentLESSFileNames( componentNames ).forEach( ( name ) => {
 		const importStatements = imports.map(
-			( lessFile ) => `@import '${lessFile}';`
+			( lessFile ) => {
+				const comment = IMPORT_COMMENTS[ lessFile ] ? `// ${IMPORT_COMMENTS[ lessFile ]}
+` : '';
+				return `${comment}@import '${lessFile}';`
+			}
 		).join( '\n' );
 		mapping[ `${name}.less` ] = `${importStatements}
 
@@ -12513,17 +12521,20 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 	const skinKey = getSkinKeyFromName( name );
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache, skinKey );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
-		'mediawiki.skin.variables',
-		'variables.less'
+		'mediawiki.skin.variables.less'
 	] );
 	const isStringModeLESS = typeof less === 'string';
 	const isStringModeJS = typeof js === 'string';
-	let importStatements = Object.keys( styles )
-		.map( ( key ) => `@import '${key}';` ).join( '\n' );
+	let importStatements = `// Import specific module style rules.
+${Object.keys( styles )
+		.map( ( key ) => `@import '${key}';` ).join( '\n' )
+}`;
 
 	if ( !options.isCSS ) {
-		importStatements += `
+		importStatements = `
+// Import common skin style rules.
 @import 'common.less';
+${importStatements}
 `;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
@@ -12557,11 +12568,12 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 				[ mainCss ]: less
 			} : less,
 			{
-				'variables.less': `${getLessVarsCode( variables )}
+				'mediawiki.skin.variables.less': `@import 'mediawiki.skin.defaults.less';
+${getLessVarsCode( variables )}
 `,
 				'skin.less': `${skinFeatures}
 @import 'mediawiki.skin.variables.less';
-@import 'variables.less';
+
 ${importStatements}`
 			} ),
 		templates,
@@ -12612,7 +12624,8 @@ function buildSkinBoilerplate( name, options ) {
 		name,
 		skin,
 		skinLESS,
-		'/* Your JS */',
+		`/* JavaScript for the ${name} skin */
+`,
 		getLessVarsRaw(),
 		options
 	).then( ( result ) => {
