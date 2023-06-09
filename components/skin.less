@@ -11,13 +11,6 @@ body {
 	max-width: 800px;
 	margin: 0 auto;
 	font-family: @font-family;
-
-	> header,
-	> main,
-	> nav,
-	> footer {
-		padding: 1em;
-	}
 }
 
 body,
@@ -43,12 +36,12 @@ a {
 .mw-header {
 	min-height: 50px;
 	margin: 0 10px 8px;
+	padding: 1em 0 1em 50px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	position: relative;
 	z-index: 3;
-	padding-left: 50px;
 
 	@media ( max-width: @width-breakpoint-tablet ) {
 		padding: 1em 8px;
@@ -60,6 +53,12 @@ a {
 
 main {
 	border-bottom: solid 20px @background-color-base;
+	padding: 1em;
+
+	& ~ nav,
+	& ~ footer {
+		padding: 1em;
+	}
 }
 
 .content {
@@ -106,17 +105,6 @@ main {
 .mw-editsection {
 	font-size: 0.85em;
 	margin-left: 8px;
-}
-
-.messagebox {
-	color: @color-base;
-	background-color: @background-color-warning;
-	border-color: @color-gray;
-
-	a {
-		color: @color-base;
-		font-weight: bold;
-	}
 }
 
 .thumbimage {

@@ -391,8 +391,7 @@ ${Object.keys( styles )
 }`;
 
 	if ( !options.isCSS ) {
-		importStatements = `
-// Import common skin style rules.
+		importStatements = `// Import common skin style rules.
 @import 'common.less';
 ${importStatements}
 `;

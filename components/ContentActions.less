@@ -6,14 +6,6 @@
 		height: 3em;
 		justify-content: space-between;
 	}
-
-	li:first-child {
-		justify-content: flex-start;
-	}
-
-	li:hover {
-		background-color: rgba( 0, 0, 0, 0.03 );
-	}
 }
 
 .mw-portlet-cactions h3,
@@ -27,8 +19,17 @@
 	font-weight: normal;
 	font-size: 100%;
 	padding: 0;
+
+	&first-child {
+		justify-content: flex-start;
+	}
+
+	&:hover {
+		background-color: rgba( 0, 0, 0, 0.03 );
+	}
 }
 
+// stylelint-disable-next-line no-descending-specificity
 .mw-portlet-cactions h3,
 .mw-portlet-cactions li a,
 .mw-portlet-views li a {
