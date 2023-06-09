@@ -32,7 +32,7 @@ try {
                     `mv ./${name}/i18n/* i18n/`,
                     `mv ./${name}/resources/* resources/`,
                     `mv ./${name}/* .`,
-                    `rm ./${name}`
+                    `rm -r ./${name}`
                 ].join( ' && ' ),
                 () => {
                      console.log(`Skin updated.`);
