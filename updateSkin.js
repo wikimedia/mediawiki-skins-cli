@@ -31,7 +31,8 @@ try {
                     `mv ./${name}/templates/* templates/`,
                     `mv ./${name}/i18n/* i18n/`,
                     `mv ./${name}/resources/* resources/`,
-                    `mv ./${name}/* .`
+                    `mv ./${name}/* .`,
+                    `rm ./${name}`
                 ].join( ' && ' ),
                 () => {
                      console.log(`Skin updated.`);
