@@ -1,27 +1,8 @@
 #!/usr/bin/env node
 const { buildSkinBoilerplate } = require( './bundle.js' );
-const fs = require( 'fs' );
 const rootFolder = './';
 const args = process.argv.slice(2);
-
-class FileSystemSaver {
-    constructor( root = '' ) {
-        this.root = root;
-        const path = `${rootFolder}/${root}`;
-        if (!fs.existsSync( path )) {
-            fs.mkdirSync( path, { recursive: true } );
-        }
-    }
-    folder( root ) {
-        return new FileSystemSaver( `${this.root}/${root}` );
-    }
-    file( path, content ) {
-        fs.writeFileSync( `${rootFolder}${this.root}/${path}`, content );
-    }
-    generateAsync() {
-        return Promise.resolve();
-    }
-}
+const FileSystemSaver = require( './src/FileSystemSaver.js');
 
 const name = args[0];
 if ( name ) {
