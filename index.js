@@ -333,8 +333,7 @@ function getComponentLESSFileNames( componentNames ) {
 }
 
 const IMPORT_COMMENTS = {
-	'mediawiki.skin.variables.less': 'Import MediaWiki skin variables for general fundamental styling.',
-	'variables.less': 'Import skin specific variables beyond MediaWiki skin variables scope.'
+	'mediawiki.skin.variables.less': 'Import MediaWiki skin variables for general fundamental styling.'
 };
 
 /**
@@ -388,19 +387,20 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	const skinKey = getSkinKeyFromName( name );
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache, skinKey );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
-		'mediawiki.skin.variables.less',
-		'variables.less'
+		'mediawiki.skin.variables.less'
 	] );
 	const isStringModeLESS = typeof less === 'string';
 	const isStringModeJS = typeof js === 'string';
-	let importStatements = Object.keys( styles )
-		.map( ( key ) => `@import '${key}';` ).join( '\n' );
+	let importStatements = `// Import specific module style rules.
+${Object.keys( styles )
+		.map( ( key ) => `@import '${key}';` ).join( '\n' )
+}`;
 
 	if ( !options.isCSS ) {
-		importStatements += `
+		importStatements = `
 // Import common skin style rules.
 @import 'common.less';
-// Import specific module style rules.
+${importStatements}
 `;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
@@ -434,11 +434,12 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 				[ mainCss ]: less
 			} : less,
 			{
-				'variables.less': `${getLessVarsCode( variables )}
+				'mediawiki.skin.variables.less': `@import 'mediawiki.skin.defaults.less';
+${getLessVarsCode( variables )}
 `,
 				'skin.less': `${skinFeatures}
 @import 'mediawiki.skin.variables.less';
-@import 'variables.less';
+
 ${importStatements}`
 			} ),
 		templates,
