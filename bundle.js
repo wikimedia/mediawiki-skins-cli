@@ -11861,6 +11861,8 @@ var CategoryPlain = "{{#data-portlets}}<span\n\tclass=\"catlinks mw-skin-categor
 
 var CopyrightLine = "<span class=\"skin-copyright-line footer-info-copyright\">\n    {{#data-copyright}}{{{html}}}{{/data-copyright}}\n</span>\n";
 
+var Content = "<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n\t{{#data-toc}}{{>TableOfContents}}{{/data-toc}}\n</main>\n";
+
 var LastModifiedLine = "<span class=\"skin-last-modified\" data-time=\"{{time}}\">{{text}}</span>\n";
 
 var CompactFooter = "{{#data-footer.data-icons}}\n<p class=\"{{id}} {{className}}\">\n{{#array-items}}{{{html}}}&nbsp;{{/array-items}}\n</p>\n{{/data-footer.data-icons}}\n{{#data-footer.data-info.array-items}}<div class=\"{{id}}\">{{{html}}}</div>{{/data-footer.data-info.array-items}}\n<div>\n{{#data-footer.data-places.array-items}}<span class=\"{{id}}\">{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}\n</div>\n";
@@ -11901,9 +11903,11 @@ var Notifications = "{{#data-portlets.data-notifications}}{{>Portlet}}{{/data-po
 
 var PersonalMenu = "{{#data-portlets.data-user-menu}}{{>Portlet}}{{/data-portlets.data-user-menu}}\n";
 
-var Languages = "{{#data-portlets.data-variants}}{{>Portlet}}{{/data-portlets.data-variants}}\n{{#data-portlets.data-languages}}{{>Portlet}}{{/data-portlets.data-languages}}\n";
+var Languages = "<nav class=\"skin-languages\">\n{{#data-portlets.data-variants}}{{>Portlet}}{{/data-portlets.data-variants}}\n{{#data-portlets.data-languages}}{{>Portlet}}{{/data-portlets.data-languages}}\n</nav>\n";
 
 var Dropdown = "<div class=\"mw-portlet-dropdown\">\n<!-- will turn next child portlet into a dropdown -->\n</div>\n";
+
+var Header = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n";
 
 var AdminBar = "<div class=\"mw-adminbar {{#is-anon}}mw-adminbar--anon{{/is-anon}}\">\n    <div class=\"mw-adminbar-start\">\n        {{>AdminBarHome}}\n    </div>\n    <div class=\"mw-adminbar-end\" {{{html-user-language-attributes}}}>\n        {{>AdminBarUser}}\n    </div>\n</div>\n";
 
@@ -11921,9 +11925,11 @@ var TableOfContents = "<div id=\"toc-sticky\">\n    <h1>Table Of Contents</h1>\n
 
 var TableOfContentsLine = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
 
-var skin = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n{{>Notices}}\n<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n\t{{#data-toc}}{{>TableOfContents}}{{/data-toc}}\n</main>\n<nav>\n\t{{>Languages}}\n</nav>\n{{>Footer}}\n";
+var skin = "{{>Header}}\n{{>Notices}}\n{{>Content}}\n{{>Languages}}\n{{>Footer}}\n";
 
-var skinLESS = "/** ResourceLoaderSkinModule: normalize,elements,content-tables,content-links,content-media,interface-message-box,interface-category,toc */\n\nhtml {\n\tbackground: @background-color-base;\n\tmargin: 0;\n\tpadding: 0 0 20px;\n}\n\nbody {\n\tbackground: @background-color-article;\n\tmax-width: 800px;\n\tmargin: 0 auto;\n\tfont-family: @font-family;\n}\n\nbody,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n\tcolor: @color-base;\n}\n\na {\n\tcolor: @color-link;\n\n\t&:visited {\n\t\tcolor: @color-link--visited;\n\t}\n}\n\n/** HEADER */\n\n.mw-header {\n\tmin-height: 50px;\n\tmargin: 0 10px 8px;\n\tpadding: 1em 0 1em 50px;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tposition: relative;\n\tz-index: 3;\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tpadding: 1em 8px;\n\t\tmargin: 0;\n\t}\n}\n\n/** CONTENT */\n\nmain {\n\tborder-bottom: solid 20px @background-color-base;\n\tpadding: 1em;\n\n\t& ~ nav,\n\t& ~ footer {\n\t\tpadding: 1em;\n\t}\n}\n\n.content {\n\t&__header {\n\t\tposition: relative;\n\t}\n\n\t&__heading {\n\t\tpadding: 0 50px 0 0;\n\t\tmargin: 0;\n\t\tborder-bottom: 0;\n\t\tfloat: left;\n\t}\n\n\t&__language-btn {\n\t\tfloat: right;\n\t\talign-items: center;\n\t}\n\n\t&__indicators {\n\t\tposition: absolute;\n\t\ttop: 10px;\n\t\tright: 0;\n\t}\n\n\t&__tagline {\n\t\tclear: both;\n\t\tcolor: @color-base;\n\t\tfont-size: 0.85em;\n\t\tmargin-bottom: 12px;\n\t\tline-height: 1;\n\n\t\t&:empty {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\t&__actions {\n\t\tdisplay: flex;\n\t}\n}\n\n/* The following rules will not be needed in future */\n.mw-editsection {\n\tfont-size: 0.85em;\n\tmargin-left: 8px;\n}\n\n.thumbimage {\n\tbackground: transparent;\n\tborder: 0;\n}\n\n.toc,\ndiv.thumbinner {\n\tborder-color: @color-gray;\n\tbackground-color: @background-color-thumb;\n\tcolor: @color-thumb;\n\n\t.toctogglelabel,\n\ta {\n\t\tcolor: @color-thumb;\n\t}\n}\n";
+var skinLESS = "/** ResourceLoaderSkinModule: normalize,elements,content-tables,content-links,content-media,interface-message-box,interface-category,toc */\n@media print {\n\t@import './print.less';\n}\n\nhtml {\n\tmargin: 0;\n\tpadding: 0 0 20px;\n}\n\nbody {\n\tmax-width: 800px;\n\tmargin: 0 auto;\n\tfont-family: @font-family;\n}\n\nmain {\n\tpadding: 1em;\n\n\t& ~ nav,\n\t& ~ footer {\n\t\tpadding: 1em;\n\t}\n}\n\n@media screen {\n\thtml {\n\t\tbackground: @background-color-base;\n\t}\n\n\tbody {\n\t\tbackground: @background-color-article;\n\t}\n\n\tbody,\n\th1,\n\th2,\n\th3,\n\th4,\n\th5,\n\th6 {\n\t\tcolor: @color-base;\n\t}\n\n\ta {\n\t\tcolor: @color-link;\n\n\t\t&:visited {\n\t\t\tcolor: @color-link--visited;\n\t\t}\n\t}\n\n\tmain {\n\t\tborder-bottom: solid 20px @background-color-base;\n\t}\n}\n";
+
+var printLESS = "/* Styles for print view and printing. */\n/* You can use CSS files or Less files depending on your preference. */\n\n/* Hide some extra stuff from print view (some of the navigation is already hidden automatically,\nbut not all). */\n.mw-indicators,\n.mw-portlet-personal,\n.mw-portlet-views,\n.mw-portlet-namespaces,\n.mw-portlet-cactions,\n.mw-portlet-notifications,\n.mw-interlanguage-selector,\n.mw-portlet-lang,\n.toggle-list,\n.catlinks,\n.mw-footer,\n.mw-portlet-variants,\nform.mw-portlet,\n#toc-sticky {\n\tdisplay: none;\n}\n\n#p-logo a {\n\tdisplay: flex;\n\talign-items: center;\n\tcolumn-gap: 10px;\n}\n";
 
 var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: #fff;\n\t\tbackground: #000;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}\n";
 
@@ -11935,15 +11941,21 @@ var EditBarLESS = "// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/
 
 var PersonalMenuLESS = ".mw-portlet-personal {\n\tmargin: 0 0 0 12px;\n\tpadding: 10px 12px 10px 0;\n\theight: 20px;\n\twidth: 20px;\n}\n\n.mw-portlet-personal.mw-portlet {\n\th3 {\n\t\tbackground-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAx0lEQVQ4jdXSzQmEQAwFYEuYUixhSwgkA8mQgKXYgS3YgXZgCZagHWgHuxf14t8osssGcv145CVJvjk+hBRFK2TrkK1D0cqHkN7CUBRI7L21KAqXMIDModiwD9oAkLlH0i3L+ooGiTWPAPPfJQTIHLGOB9h46YZnKS+3PI8PISW2GkV7FO2Jrb79h4+ODyElsYJYm437NSRWRCWdylgj++U0u+UAZI5E22hsWW03UWQtr2NT66zlCjz8uzNQbFiDN7F5/xB8aj57Ynp2FKI0bAAAAABJRU5ErkJggg== );\n\t\ttext-indent: -999px;\n\t\tbackground-repeat: no-repeat;\n\t\theight: 100%;\n\t\twidth: 40px;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tbackground-position: center center;\n\t\toverflow: hidden;\n\t\tdisplay: flex;\n\t\tfilter: @icon-filter;\n\t}\n\n\tli {\n\t\tdisplay: block;\n\t}\n}\n";
 
+var ContentLESS = ".content {\n\t&__header {\n\t\tposition: relative;\n\t}\n\n\t&__heading {\n\t\tpadding: 0 50px 0 0;\n\t\tmargin: 0;\n\t\tborder-bottom: 0;\n\t\tfloat: left;\n\t}\n\n\t&__language-btn {\n\t\tfloat: right;\n\t\talign-items: center;\n\t}\n\n\t&__indicators {\n\t\tposition: absolute;\n\t\ttop: 10px;\n\t\tright: 0;\n\t}\n\n\t&__tagline {\n\t\tclear: both;\n\t\tcolor: @color-base;\n\t\tfont-size: 0.85em;\n\t\tmargin-bottom: 12px;\n\t\tline-height: 1;\n\n\t\t&:empty {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\t&__actions {\n\t\tdisplay: flex;\n\t}\n\n\t/* The following rules will not be needed in future */\n\t.mw-editsection {\n\t\tfont-size: 0.85em;\n\t\tmargin-left: 8px;\n\t}\n\n\t.thumbimage {\n\t\tbackground: transparent;\n\t\tborder: 0;\n\t}\n\n\t.toc,\n\tdiv.thumbinner {\n\t\tborder-color: @color-gray;\n\t\tbackground-color: @background-color-thumb;\n\t\tcolor: @color-thumb;\n\n\t\t.toctogglelabel,\n\t\ta {\n\t\t\tcolor: @color-thumb;\n\t\t}\n\t}\n}\n";
+
 var ContentActionsLESS = ".mw-portlet-views {\n\tflex-grow: 1;\n\n\tul {\n\t\tdisplay: flex;\n\t\theight: 3em;\n\t\tjustify-content: space-between;\n\t}\n}\n\n.mw-portlet-cactions h3,\n.mw-portlet-views li {\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\talign-items: center;\n\tmin-width: 0;\n\toverflow: hidden;\n\tflex-basis: auto;\n\tfont-weight: normal;\n\tfont-size: 100%;\n\tpadding: 0;\n\n\t&first-child {\n\t\tjustify-content: flex-start;\n\t}\n\n\t&:hover {\n\t\tbackground-color: rgba( 0, 0, 0, 0.03 );\n\t}\n}\n\n// stylelint-disable-next-line no-descending-specificity\n.mw-portlet-cactions h3,\n.mw-portlet-cactions li a,\n.mw-portlet-views li a {\n\tcolor: @color-base;\n\ttext-decoration: none;\n}\n\n#ca-view {\n\tdisplay: none;\n}\n\n.mw-portlet-cactions.mw-portlet {\n\tmargin-left: 40px;\n\n\th3 {\n\t\tdisplay: flex;\n\t\theight: 3em;\n\t}\n}\n";
 
 var DropdownLESS = "/* Checkbox hack dropdown */\n.mw-portlet-dropdown ~ .mw-portlet {\n\tli {\n\t\tdisplay: block;\n\t\tpadding: 0.75em 0.875em;\n\t}\n\n\t.mw-portlet-body {\n\t\tdisplay: none;\n\n\t\tul {\n\t\t\tbackground: @background-color-article;\n\t\t\tposition: absolute;\n\t\t\toverflow-y: auto;\n\t\t\tz-index: 2;\n\t\t\tbox-shadow: 0 5px 17px 0 rgba( 0, 0, 0, 0.24 ), 0 0 1px @color-gray;\n\t\t\tright: 0;\n\t\t\tmin-width: 200px;\n\t\t}\n\t}\n\n\tinput:checked {\n\t\t~ .mw-portlet-body ul {\n\t\t\topacity: 1;\n\t\t\tvisibility: visible;\n\t\t}\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t\topacity: 1;\n\t\t}\n\t}\n}\n";
+
+var HeaderLESS = ".mw-header {\n\tmin-height: 50px;\n\tmargin: 0 10px 8px;\n\tpadding: 1em 0 1em 50px;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tposition: relative;\n\tz-index: 3;\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tpadding: 1em 8px;\n\t\tmargin: 0;\n\t}\n}\n";
 
 var CategoryPlainLESS = ".mw-skin-category-plain {\n\tul {\n\t\tmargin: 0;\n\t}\n\n\tul,\n\tli {\n\t\tdisplay: inline;\n\t\tmargin-right: 8px;\n\t}\n\n\t.mw-hidden-cats-hidden {\n\t\tdisplay: none;\n\t}\n}\n";
 
 var CategoryLinksLESS = ".skin-category-links a:after {\n\tcontent: ',';\n}\n\n.skin-category-list a:last-child:after {\n\tcontent: none;\n}\n";
 
 var ContentNamespacesLESS = ".mw-portlet-namespaces {\n\tmargin-top: 10px;\n\tborder-bottom: 1px solid @color-gray-2;\n\n\ta {\n\t\tfont-size: 0.85em;\n\t\tmargin: 0 10px 0 0;\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t\tpadding-bottom: 6px;\n\t\tdisplay: inline-block;\n\t}\n\n\tli.selected {\n\t\tborder-bottom: 2px solid @color-base;\n\t\tmargin-bottom: -1px;\n\t}\n}\n";
+
+var LanguagesLESS = ".skin-languages {\n\n\t#p-lang-label {\n\t\tdisplay: block;\n\t}\n}\n";
 
 var PortletLESS = ".mw-portlet {\n\tposition: relative;\n\n\tul {\n\t\tmargin: 0;\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 10px;\n\t}\n\n\tinput[ type='checkbox' ] {\n\t\tdisplay: block;\n\t\tposition: absolute;\n\t\topacity: 0;\n\t\tcursor: pointer;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\tz-index: @z-index-stacking-1;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n}\n";
 
@@ -12211,10 +12223,13 @@ const COMPONENT_STYLES = {
 	AdminBar: AdminBarLESS,
 	CategoryLinks: CategoryLinksLESS,
 	CategoryPlain: CategoryPlainLESS,
+	Content: ContentLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
 	ContentActions: ContentActionsLESS,
 	Dropdown: DropdownLESS,
+	Header: HeaderLESS,
+	Language: LanguagesLESS,
 	ContentNamespaces: ContentNamespacesLESS,
 	Portlet: PortletLESS,
 	Notifications: NotificationsLESS,
@@ -12255,6 +12270,8 @@ const PARTIALS = {
 	Dropdown,
 	Notifications,
 	PersonalMenu,
+	Header,
+	Content,
 	Footer,
 	Logo,
 	Search,
@@ -12519,15 +12536,17 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 	const isStringModeLESS = typeof less === 'string';
 	const isStringModeJS = typeof js === 'string';
 	let importStatements = `// Import specific module style rules.
+@media screen {
 ${Object.keys( styles )
-		.map( ( key ) => `@import '${key}';` ).join( '\n' )
-}`;
+		.map( ( key ) => `	@import '${key}';` ).join( '\n' )
+}
+}
+`;
 
 	if ( !options.isCSS ) {
 		importStatements = `// Import common skin style rules.
 @import 'common.less';
-${importStatements}
-`;
+${importStatements}`;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
 
@@ -12560,6 +12579,7 @@ ${importStatements}
 				[ mainCss ]: less
 			} : less,
 			{
+				'print.less': printLESS,
 				'mediawiki.skin.variables.less': `@import 'mediawiki.skin.defaults.less';
 ${getLessVarsCode( variables )}
 `,

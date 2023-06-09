@@ -1,23 +1,5 @@
-<header class="mw-header">
-	{{>Logo}}
-	{{>Notifications}}
-	{{>Dropdown}}{{>PersonalMenu}}
-	{{>Search}}
-	{{>Sidebar}}
-</header>
+{{>Header}}
 {{>Notices}}
-<main id="content" class="mw-body">
-	<header class="content__header">
-		{{>ContentIndicators}}
-		{{>ContentHeading}}
-		{{>ContentTagline}}
-		{{>ContentNamespaces}}
-		{{>ContentActions}}
-	</header>
-	{{>ContentBody}}
-	{{#data-toc}}{{>TableOfContents}}{{/data-toc}}
-</main>
-<nav>
-	{{>Languages}}
-</nav>
+{{>Content}}
+{{>Languages}}
 {{>Footer}}

@@ -1,58 +1,20 @@
 /** ResourceLoaderSkinModule: normalize,elements,content-tables,content-links,content-media,interface-message-box,interface-category,toc */
+@media print {
+	@import './print.less';
+}
 
 html {
-	background: @background-color-base;
 	margin: 0;
 	padding: 0 0 20px;
 }
 
 body {
-	background: @background-color-article;
 	max-width: 800px;
 	margin: 0 auto;
 	font-family: @font-family;
 }
 
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: @color-base;
-}
-
-a {
-	color: @color-link;
-
-	&:visited {
-		color: @color-link--visited;
-	}
-}
-
-/** HEADER */
-
-.mw-header {
-	min-height: 50px;
-	margin: 0 10px 8px;
-	padding: 1em 0 1em 50px;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	position: relative;
-	z-index: 3;
-
-	@media ( max-width: @width-breakpoint-tablet ) {
-		padding: 1em 8px;
-		margin: 0;
-	}
-}
-
-/** CONTENT */
-
 main {
-	border-bottom: solid 20px @background-color-base;
 	padding: 1em;
 
 	& ~ nav,
@@ -61,65 +23,34 @@ main {
 	}
 }
 
-.content {
-	&__header {
-		position: relative;
+@media screen {
+	html {
+		background: @background-color-base;
 	}
 
-	&__heading {
-		padding: 0 50px 0 0;
-		margin: 0;
-		border-bottom: 0;
-		float: left;
+	body {
+		background: @background-color-article;
 	}
 
-	&__language-btn {
-		float: right;
-		align-items: center;
-	}
-
-	&__indicators {
-		position: absolute;
-		top: 10px;
-		right: 0;
-	}
-
-	&__tagline {
-		clear: both;
+	body,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		color: @color-base;
-		font-size: 0.85em;
-		margin-bottom: 12px;
-		line-height: 1;
+	}
 
-		&:empty {
-			display: none;
+	a {
+		color: @color-link;
+
+		&:visited {
+			color: @color-link--visited;
 		}
 	}
 
-	&__actions {
-		display: flex;
-	}
-}
-
-/* The following rules will not be needed in future */
-.mw-editsection {
-	font-size: 0.85em;
-	margin-left: 8px;
-}
-
-.thumbimage {
-	background: transparent;
-	border: 0;
-}
-
-.toc,
-div.thumbinner {
-	border-color: @color-gray;
-	background-color: @background-color-thumb;
-	color: @color-thumb;
-
-	.toctogglelabel,
-	a {
-		color: @color-thumb;
+	main {
+		border-bottom: solid 20px @background-color-base;
 	}
 }

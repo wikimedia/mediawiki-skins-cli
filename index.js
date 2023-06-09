@@ -4,6 +4,7 @@ import FooterList from './components/FooterList.mustache';
 import CategoryLinks from './components/CategoryLinks.mustache';
 import CategoryPlain from './components/CategoryPlain.mustache';
 import CopyrightLine from './components/CopyrightLine.mustache';
+import Content from './components/Content.mustache';
 import LastModifiedLine from './components/LastModifiedLine.mustache';
 import CompactFooter from './components/CompactFooter.mustache';
 import Portlet from './components/Portlet.mustache';
@@ -26,6 +27,7 @@ import Notifications from './components/Notifications.mustache';
 import PersonalMenu from './components/PersonalMenu.mustache';
 import Languages from './components/Languages.mustache';
 import Dropdown from './components/Dropdown.mustache';
+import Header from './components/Header.mustache';
 import AdminBar from './components/AdminBar.mustache';
 import AdminBarHome from './components/AdminBarHome.mustache';
 import AdminBarUser from './components/AdminBarUser.mustache';
@@ -37,17 +39,21 @@ import TableOfContentsLine from './components/TableOfContents__line.mustache';
 import skin from './components/skin.mustache';
 
 import skinLESS from './components/skin.less';
+import printLESS from './components/print.less';
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
 import AdminBarWithEditLESS from './components/AdminBar.less';
 import AdminBarLESS from './components/AdminBar.less';
 import EditBarLESS from './components/EditBar.less';
 import PersonalMenuLESS from './components/PersonalMenu.less';
+import ContentLESS from './components/Content.less';
 import ContentActionsLESS from './components/ContentActions.less';
 import DropdownLESS from './components/Dropdown.less';
+import HeaderLESS from './components/Header.less';
 import CategoryPlainLESS from './components/CategoryPlain.less';
 import CategoryLinksLESS from './components/CategoryLinks.less';
 import ContentNamespacesLESS from './components/ContentNamespaces.less';
+import LanguagesLESS from './components/Languages.less';
 import PortletLESS from './components/Portlet.less';
 import NotificationsLESS from './components/Notifications.less';
 import SidebarLESS from './components/Sidebar.less';
@@ -65,10 +71,13 @@ export const COMPONENT_STYLES = {
 	AdminBar: AdminBarLESS,
 	CategoryLinks: CategoryLinksLESS,
 	CategoryPlain: CategoryPlainLESS,
+	Content: ContentLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
 	ContentActions: ContentActionsLESS,
 	Dropdown: DropdownLESS,
+	Header: HeaderLESS,
+	Language: LanguagesLESS,
 	ContentNamespaces: ContentNamespacesLESS,
 	Portlet: PortletLESS,
 	Notifications: NotificationsLESS,
@@ -118,6 +127,8 @@ export const PARTIALS = {
 	Dropdown,
 	Notifications,
 	PersonalMenu,
+	Header,
+	Content,
 	Footer,
 	Logo,
 	Search,
@@ -386,15 +397,17 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	const isStringModeLESS = typeof less === 'string';
 	const isStringModeJS = typeof js === 'string';
 	let importStatements = `// Import specific module style rules.
+@media screen {
 ${Object.keys( styles )
-		.map( ( key ) => `@import '${key}';` ).join( '\n' )
-}`;
+		.map( ( key ) => `	@import '${key}';` ).join( '\n' )
+}
+}
+`;
 
 	if ( !options.isCSS ) {
 		importStatements = `// Import common skin style rules.
 @import 'common.less';
-${importStatements}
-`;
+${importStatements}`;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
 
@@ -427,6 +440,7 @@ ${importStatements}
 				[ mainCss ]: less
 			} : less,
 			{
+				'print.less': printLESS,
 				'mediawiki.skin.variables.less': `@import 'mediawiki.skin.defaults.less';
 ${getLessVarsCode( variables )}
 `,
