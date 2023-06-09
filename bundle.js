@@ -11593,7 +11593,7 @@ node_modules/
 }
 
 const SKINS_LAB_VERSION = '3.0';
-const MW_MIN_VERSION = '1.40.0';
+const MW_MIN_VERSION = '1.41.0';
 lib.support.blob = true;
 
 /**
