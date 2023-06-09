@@ -11608,7 +11608,6 @@ lib.support.blob = true;
  * @param {Array} authors
  */
 function addi18n$1( name, rootfolder, messages = {}, authors = [] ) {
-	console.log('add i18n', messages);
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );

@@ -1,6 +1,6 @@
 {
 	"name": "mediawiki-skins-cli",
-	"version": "1.40.2",
+	"version": "1.40.3",
 	"description": "Generate MediaWiki skins and extensions from nothing.",
 	"main": "bundle.js",
 	"devDependencies": {
