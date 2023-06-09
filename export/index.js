@@ -195,7 +195,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	);
 
 	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
-	addDevTools( rootfolder );
+	addDevTools( name, rootfolder );
 
 	// create styles and script files in `resources` folder
 	Object.keys( styles ).forEach( ( filename ) => {

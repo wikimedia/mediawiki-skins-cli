@@ -21,8 +21,8 @@ export function getSkinKeyFromName( name ) {
 	return getFolderNameFromName( name ).toLowerCase();
 }
 
-export function addDevTools( rootfolder ) {
-	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );
+export function addDevTools( name, rootfolder ) {
+	rootfolder.file( 'package.json', stringifyjson( Object.assign( { name }, packageJSON ) ) );
 	rootfolder.file( '.eslintrc.json', stringifyjson( eslintJSON ) );
 	rootfolder.file( '.stylelintrc.json', stringifyjson( stylelintJSON ) );
 	rootfolder.file( '.gitignore', `.eslintcache

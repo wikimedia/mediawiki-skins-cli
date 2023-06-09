@@ -207,7 +207,7 @@ export default function buildExtension( name, options = {} ) {
 		extjson( folderName, options )
 	);
 	addi18n( rootfolder, name );
-	addDevTools( rootfolder );
+	addDevTools( name, rootfolder );
 	/* const resourcesFolder = */rootfolder.folder( 'resources' );
 	const includesFolder = rootfolder.folder( 'includes' );
 	rootfolder.file(
