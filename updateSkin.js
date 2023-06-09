@@ -11,10 +11,15 @@ try {
         fs.readFileSync( `${base}/skin.json` ).toString()
     );
     const name = skin.name;
+    const skinStyles = skin.ResourceModuleSkinStyles || {};
+    const skinStyleKey = Object.keys( skinStyles )[ 0 ];
+
     if ( name ) {
         buildSkinBoilerplate(
             name,
             {
+                license: skin['license-name'],
+                skinStyles: skinStyles[ skinStyleKey ] || {},
                 Zipper: FileSystemSaver,
                 CustomFileSaver: () => (
                     () => Promise.resolve( true )
