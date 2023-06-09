@@ -3,7 +3,7 @@ const { buildSkinBoilerplate } = require( './bundle.js' );
 const FileSystemSaver = require( './src/FileSystemSaver.js');
 const fs = require( 'fs' );
 const args = process.argv.slice(2);
-const base = args[ 0 ] ? `${__dirname}/${args[ 0 ]}` : __dirname;
+const base = args[ 0 ] ? args[ 0 ] : __dirname;
 const { exec } = require("child_process");
 
 try {
