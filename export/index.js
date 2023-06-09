@@ -32,12 +32,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
 	const en = Object.assign( {
 		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: name,
-		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
+		[ `${skinKey}-skin-desc` ]: `A skin created by ${TOOL_LINK}`
 	}, messages.en || {} );
 	const qqq = Object.assign( {
 		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
-		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
+		[ `${skinKey}-skin-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
 	}, messages.qqq || {} );
 	i18nfolder.file( 'en.json', stringifyjson( en ) );
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
