@@ -89,8 +89,7 @@ function skinjson(
 							toc,
 							messages,
 							styles: [
-								'mediawiki.ui.icon',
-								'mediawiki.ui.button',
+								'codex-styles',
 								`skins.${skinKey}.styles`
 							],
 							scripts: packageFiles.length ? [
