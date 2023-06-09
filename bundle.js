@@ -12470,10 +12470,6 @@ function getComponentLESSFileNames( componentNames ) {
 	);
 }
 
-const IMPORT_COMMENTS = {
-	'mediawiki.skin.variables.less': 'Import MediaWiki skin variables for general fundamental styling.'
-};
-
 /**
  *
  * @param {string[]} componentNames name array
@@ -12485,9 +12481,7 @@ function getComponentLESSFiles( componentNames, imports ) {
 	getComponentLESSFileNames( componentNames ).forEach( ( name ) => {
 		const importStatements = imports.map(
 			( lessFile ) => {
-				const comment = IMPORT_COMMENTS[ lessFile ] ? `// ${IMPORT_COMMENTS[ lessFile ]}
-` : '';
-				return `${comment}@import '${lessFile}';`
+				return `@import '${lessFile}';`
 			}
 		).join( '\n' );
 		mapping[ `${name}.less` ] = `${importStatements}
@@ -12572,6 +12566,7 @@ ${importStatements}
 ${getLessVarsCode( variables )}
 `,
 				'skin.less': `${skinFeatures}
+// Import MediaWiki skin variables for general fundamental styling.
 @import 'mediawiki.skin.variables.less';
 
 ${importStatements}`
