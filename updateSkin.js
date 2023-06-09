@@ -28,6 +28,7 @@ try {
         ).then( () => {
             exec(
                 [
+                    `rm ./${name}/resources/common.less`,
                     `mv ./${name}/templates/* templates/`,
                     `mv ./${name}/i18n/* i18n/`,
                     `mv ./${name}/resources/* resources/`,
