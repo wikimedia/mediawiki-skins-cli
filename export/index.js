@@ -104,7 +104,7 @@ function skinjson(
 			},
 			ResourceModules: {
 				[ `skins.${skinKey}.styles` ]: {
-					class: 'ResourceLoaderSkinModule',
+					class: 'MediaWiki\\ResourceLoader\\SkinModule',
 					features: skinFeatures,
 					targets: [ 'desktop', 'mobile' ],
 					styles
